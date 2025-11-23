@@ -76,7 +76,7 @@ output/
 results/
 predictions/
 reports/
-
+.claude/
 # 临时文件
 temp/
 tmp/
