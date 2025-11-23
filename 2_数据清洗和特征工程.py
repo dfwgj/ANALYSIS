@@ -37,11 +37,11 @@ feature_cols = [
     col for col in df.columns
     if not col.endswith('_Class')
     and col != 'All_Class'
-    and col not in ['Folate_anemia_class', 'B12_Anemia_class']  # ⭐ 移除泄露特征
+    and col not in ['Folate_anemia_class', 'B12_Anemia_class']  # 移除泄露特征
 ]
 print(f"\n特征列数量: {len(feature_cols)}")
 print(f"特征列: {feature_cols}")
-print("\n⚠️  已移除泄露特征: Folate_anemia_class, B12_Anemia_class")
+print("\n[WARNING] 已移除泄露特征: Folate_anemia_class, B12_Anemia_class")
 
 # 根据原始论文，All_Class是主要的5类分类标签
 label_col = 'All_Class'
@@ -98,6 +98,30 @@ print("\n【5】与目标变量的相关性分析...")
 target_corr = df_clean[feature_cols + [label_col]].corr()[label_col].drop(label_col).sort_values(key=abs, ascending=False)
 print("与目标变量最相关的10个特征:")
 print(target_corr.head(10))
+
+# ==========================================
+# 【5.1】移除低相关性特征（特征选择）
+# ==========================================
+print("\n【5.1】特征选择 - 移除低相关性特征...")
+corr_threshold = 0.05  # 相关性阈值，可根据需要调整
+print(f"相关性阈值: |r| >= {corr_threshold}")
+
+# 筛选高相关性特征（绝对值 >= 阈值）
+high_corr_features = target_corr[abs(target_corr) >= corr_threshold].index.tolist()
+removed_low_corr = [col for col in feature_cols if col not in high_corr_features]
+
+print(f"\n被移除的低相关性特征（|r| < {corr_threshold}）:")
+for col in removed_low_corr:
+    corr_val = target_corr[col]
+    print(f"  - {col}: r = {corr_val:.4f}")
+
+print(f"\n保留的特征数量: {len(high_corr_features)}")
+print(f"移除的特征数量: {len(removed_low_corr)}")
+print(f"原始特征数量: {len(feature_cols)}")
+
+# 更新特征列表
+feature_cols = high_corr_features
+print(f"\n最终特征列: {feature_cols}")
 
 # 数据变换
 print("\n【6】数据变换...")

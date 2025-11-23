@@ -54,7 +54,7 @@ config.py
 # ==========================================
 
 # 模型文件（通常很大，不追踪）
-*.pkl
+# *.pkl
 *.joblib
 *.h5
 *.hdf5
@@ -62,8 +62,6 @@ config.py
 *.pb
 
 # 数据集（通常很大，不追踪）
-*.csv
-*.xlsx
 *.xls
 *.parquet
 *.feather

@@ -9,25 +9,34 @@ app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
 # Load model and scaler
-# Assuming models are in ../output/ relative to this file
+# Assuming models are in ./model and ./scaler relative to this file
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_PATH = os.path.join(BASE_DIR, '..', 'output', 'best_model_smote.pkl')
-SCALER_PATH = os.path.join(BASE_DIR, '..', 'output', 'scaler.pkl')
+MODEL_PATH = os.path.join(BASE_DIR, 'model', 'best_model_smote.pkl')
+SCALER_PATH = os.path.join(BASE_DIR, 'scaler', 'scaler.pkl')
 
 try:
-    model = joblib.load(MODEL_PATH)
+    # Load scaler
     scaler = joblib.load(SCALER_PATH)
+
+    # Load model (saved as dict with model info)
+    model_data = joblib.load(MODEL_PATH)
+    if isinstance(model_data, dict):
+        model = model_data['model']  # 提取模型对象
+        print(f"Model type: {model_data.get('model_name', 'Unknown')}")
+    else:
+        model = model_data
+
     print("Model and Scaler loaded successfully.")
 except Exception as e:
     print(f"Error loading model or scaler: {e}")
     model = None
     scaler = None
 
-# Feature columns in the correct order
+# Feature columns (15个简化特征)
 FEATURE_COLS = [
-    'GENDER', 'WBC', 'NE#', 'LY#', 'MO#', 'EO#', 'BA#', 'RBC', 'HGB', 'HCT', 
-    'MCV', 'MCH', 'MCHC', 'RDW', 'PLT', 'MPV', 'PCT', 'PDW', 'SD', 'SDTSD', 
-    'TSD', 'FERRITTE', 'FOLATE', 'B12'
+    'HGB', 'HCT', 'RBC', 'RDW', 'MCH', 'MCHC',
+    'MCV', 'SD', 'TSD', 'PLT', 'LY#', 'PCT',
+    'PDW', 'FOLATE', 'NE#'
 ]
 
 @app.route('/health', methods=['GET'])
@@ -53,15 +62,8 @@ def predict():
             if val is None:
                 return jsonify({"error": f"Missing feature: {col}"}), 400
             features.append(float(val))
-            
-        # Add missing features that were accidentally included in training (Data Leakage in original model)
-        # 'Folate_anemia_class' and 'B12_Anemia_class' were not excluded due to case sensitivity in training script
-        # We set them to 0 as we don't know the diagnosis yet
-        features.append(0.0) # Folate_anemia_class
-        features.append(0.0) # B12_Anemia_class
-            
-        # Create DataFrame for scaling (to match training structure if needed, or just numpy array)
-        # The scaler expects a 2D array
+
+        # Create DataFrame for scaling
         features_array = np.array([features])
         
         # Scale features
@@ -71,14 +73,14 @@ def predict():
         prediction = model.predict(scaled_features)[0]
         probabilities = model.predict_proba(scaled_features)[0]
         
-        # Map class to label (if available, otherwise just return class index)
-        # Classes: 0: No anemia, 1: HGB-anemia, 2: Iron deficiency, 3: Folate deficiency, 4: B12 deficiency
+        # Map class to label (Chinese + English format)
+        # 类别: 0: 无贫血, 1: 血红蛋白贫血, 2: 缺铁性贫血, 3: 叶酸缺乏症, 4: 维生素B12缺乏症
         class_labels = {
-            0: "No Anemia",
-            1: "HGB Anemia",
-            2: "Iron Deficiency Anemia",
-            3: "Folate Deficiency Anemia",
-            4: "B12 Deficiency Anemia"
+            0: "无贫血(No Anemia)",
+            1: "血红蛋白贫血(HGB Anemia)",
+            2: "缺铁性贫血(Iron Deficiency Anemia)",
+            3: "叶酸缺乏症(Folate Deficiency Anemia)",
+            4: "维生素B12缺乏症(B12 Deficiency Anemia)"
         }
         
         result = {

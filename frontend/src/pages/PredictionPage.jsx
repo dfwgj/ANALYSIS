@@ -35,7 +35,7 @@ function PredictionPage() {
   return (
     <div className="min-h-screen p-4 md:p-8 relative">
       {/* Header */}
-      <header className="flex justify-between items-center mb-12 glass-panel p-4">
+      <header className="flex justify-between items-center mb-12 glass-panel p-4 ">
         <div className="flex items-center justify-between w-full">
           <Link to="/">
             <motion.button

@@ -6,15 +6,13 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import CodeBlock from '../components/CodeBlock';
 
 const Home = () => {
-  // Real Data Stats from 1_数据探索.py
-  // Total samples: 15300
-  // Classes: 5 (Healthy, HGB, Iron, Folate, B12)
+
   const classData = [
-    { name: '健康 (Healthy)', value: 30 }, // Approx % based on typical balance or 1:1 after SMOTE
-    { name: 'HGB贫血', value: 17.5 },
-    { name: '缺铁性贫血', value: 17.5 },
-    { name: '叶酸缺乏', value: 17.5 },
-    { name: 'B12缺乏', value: 17.5 },
+    { name: '健康 (Healthy)', value: 63.58 }, // Approx % based on typical balance or 1:1 after SMOTE
+    { name: 'HGB贫血', value: 6.67 },
+    { name: '缺铁性贫血', value: 27.45 },
+    { name: '叶酸缺乏', value: 1.00 },
+    { name: 'B12缺乏', value: 1.3 },
   ];
   const COLORS = ['#00f3ff', '#bc13fe', '#ff0055', '#ffaa00', '#00ff66'];
 
@@ -28,7 +26,7 @@ const Home = () => {
     { 
       title: "2. 特征工程", 
       icon: <Database />, 
-      desc: "清洗数据，筛选24个关键特征，进行归一化。",
+      desc: "清洗数据，筛选出15个关键特征，进行归一化。",
       detail: "剔除无关列，使用 MinMaxScaler 将数据缩放到 [0,1] 区间。"
     },
     { 
@@ -128,7 +126,7 @@ model.fit(X_train_smote, y_train_smote)
               whileHover={{ y: -5 }}
               className="glass-panel p-8"
             >
-              <h3 className="text-xl font-tech text-gray-900 dark:text-white mb-6 text-center">样本类别分布 (SMOTE平衡后)</h3>
+              <h3 className="text-xl font-tech text-gray-900 dark:text-white mb-6 text-center">样本类别分布 (SMOTE平衡前)</h3>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
