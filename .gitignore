@@ -1,0 +1,265 @@
+# ==========================================
+# Python机器学习项目 - .gitignore
+# ==========================================
+
+# ==========================================
+# Python 相关
+# ==========================================
+# 字节码和缓存
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Cython编译输出
+*.so
+*.pyd
+
+# Python虚拟环境
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Python包构建
+dist/
+build/
+*.egg-info/
+
+# pytest缓存
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# mypy类型检查
+.mypy_cache/
+.mypy.ini
+.dmypy.json
+
+# 日志文件
+*.log
+
+# 环境变量文件（包含密钥！）
+.env
+.env.local
+secrets.py
+config.py
+
+# Jupyter Notebook检查点
+.ipynb_checkpoints/
+
+# ==========================================
+# 机器学习项目特定
+# ==========================================
+
+# 模型文件（通常很大，不追踪）
+*.pkl
+*.joblib
+*.h5
+*.hdf5
+*.onnx
+*.pb
+
+# 数据集（通常很大，不追踪）
+*.csv
+*.xlsx
+*.xls
+*.parquet
+*.feather
+*.hdf
+*.h5
+raw_data.csv
+dataset/
+data/
+
+# 输出结果目录（每次运行都会重新生成）
+output/
+results/
+predictions/
+reports/
+
+# 临时文件
+temp/
+tmp/
+.cache/
+
+# ==========================================
+# IDE和编辑器
+# ==========================================
+
+# VS Code
+.vscode/
+*.code-workspace
+.vscode/settings.json
+.vscode/tasks.json
+.vscode/launch.json
+.vscode/extensions.json
+
+# PyCharm
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Atom
+.atom/
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+#*#
+
+# ==========================================
+# 操作系统文件
+# ==========================================
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+._*
+.Spotlight-V100
+.Trashes
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+
+# ==========================================
+# 项目特定排除
+# ==========================================
+
+# 本项目的特定输出目录（已生成结果）
+output/
+
+# 备份文件
+*.bak
+*.backup
+*.old
+
+# 临时数据清洗中间文件
+temp_data/
+intermediate/
+
+# 可视化临时文件
+*.svg
+*.png
+!README中的图表.png
+
+# 模型训练检查点
+*.ckpt
+
+# TMUX和Screen
+*.swp
+
+# ==========================================
+# 文档和笔记
+# ==========================================
+
+# 私有笔记
+private_notes/
+personal/
+draft/
+
+# 临时文档
+TODO.md
+draft.md
+*.tmp.md
+
+# ==========================================
+# 解压缩文件（不应提交）
+# ==========================================
+*.zip
+*.tar.gz
+*.tar.bz2
+*.rar
+*.7z
+
+# ==========================================
+# 证书和密钥（绝对不能提交！）
+# ==========================================
+*.key
+*.pem
+*.crt
+*.p12
+*.pfx
+*.p8
+
+# ==========================================
+# 容器和虚拟化
+# ==========================================
+Dockerfile
+docker-compose.yml
+.dockerignore
+.vagrant/
+
+# ==========================================
+# 其他
+# ==========================================
+#  npm/yarn（如果项目中有前端部分）
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 编译后的文件
+*.exe
+*.dll
+*.dylib
+
+# 锁文件（视项目而定，有些项目需要提交）
+# Pipfile.lock
+# poetry.lock
+# yarn.lock
+
+# ==========================================
+# 例外情况（需要追踪的文件）
+# ==========================================
+
+# 不要忽略这些文件：
+# !README.md
+# !.gitignore
+# !requirements.txt
+# !setup.py
+# !LICENSE
+# !CHANGELOG.md
+
+# 示例数据（如果需要提交小样本数据）
+# !data/samples.csv
+
+# 如果你希望追踪某些模型：
+# !models/final_model.pkl
+
+# ==========================================
+# 提交提示
+# ==========================================
+
+# 在提交前检查：
+# 1. 没有大文件（>100MB）
+# 2. 没有密钥或凭据
+# 3. 没有个人敏感信息
+# 4. 没有临时文件
+# 5. 模型文件是否真的需要追踪（通常不需要）
+
+# 查看哪些文件被忽略：
+# git status --ignored
+
+# 查看某些文件为什么被忽略：
+# git check-ignore -v <filename>
